@@ -248,18 +248,19 @@ class Settings {
 
     public static class MenuPane extends JPanel {
 
-        public static final Rectangle COUNT_1 = new Rectangle(300, 110, 50, 50);
-        public static final Rectangle COUNT_2 = new Rectangle(300, 140, 50, 50);
-        public static final Rectangle COUNT_3 = new Rectangle(300, 170, 50, 50);
-        public static final Rectangle COUNT_4 = new Rectangle(300, 200, 50, 50);
-        public static final Rectangle COUNT_5 = new Rectangle(300, 230, 50, 50);
-        public static final Rectangle COUNT_6 = new Rectangle(300, 260, 50, 50);
+        public static final Rectangle CHOICE = new Rectangle(100, 30, 100, 50);
+        public static final Rectangle COUNT_1 = new Rectangle(130, 70, 50, 50);
+        public static final Rectangle COUNT_2 = new Rectangle(130, 100, 50, 50);
+        public static final Rectangle COUNT_3 = new Rectangle(130, 130, 50, 50);
+        public static final Rectangle COUNT_4 = new Rectangle(130, 160, 50, 50);
+        public static final Rectangle COUNT_5 = new Rectangle(130, 190, 50, 50);
+        public static final Rectangle COUNT_6 = new Rectangle(130, 220, 50, 50);
         private BufferedImage img;
         private Rectangle selectedBounds;
 
         public MenuPane() {
             try {
-                img = ImageIO.read(getClass().getResource("./background.jpg"));
+                img = ImageIO.read(getClass().getResource("./background2.jpg"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -339,6 +340,7 @@ class Settings {
 
                 g2d.drawImage(img, p.x, p.y, this);
 
+                drawText(g2d, "Выберите количество игроков", CHOICE);
                 drawText(g2d, "1", getCount1());
                 drawText(g2d, "2", getCount2());
                 drawText(g2d, "3", getCount3());
@@ -366,7 +368,7 @@ class Settings {
                     g2d.setPaint(rpg);
                     RoundRectangle2D fill = new RoundRectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height, 22, 22);
                     g2d.fill(fill);
-                    g2d.setColor(Color.WHITE);
+                    g2d.setColor(Color.BLACK);
                 }
             }
 
