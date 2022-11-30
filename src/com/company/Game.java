@@ -23,29 +23,51 @@ public class Game {
     }
 
     public void start() throws IOException {
-        for (int i = 0; i < players_num; i++) {
+        while (true) {
             Scanner in = new Scanner(System.in);
-            Player player = players[i];
+            for (int i = 0; i < players_num; i++) {
+                Player player = players[i];
+                if (player.score <= 0) {
+                    System.out.println(player.name + ", у вас недостаточно очков, чтобы продолжать игру.");
+                    continue;
+                }
 
-            System.out.println(player.name + ", у вас есть " + player.score + " очков. Введите ставку");
-            player.bet = in.nextInt();
+                System.out.println(player.name + ", у вас есть " + player.score + " очков. Введите ставку");
+                player.bet = in.nextInt();
+                while (player.bet < 0 || player.bet > player.score) {
+                    System.out.println("Ставка слишком большая или маленькая. Выберите другую");
+                    player.bet = in.nextInt();
+                }
 
-            System.out.println("Введите -1, если будете ставить на цвет, 1 -- если на число");
-            player.field = in.nextInt();
+                System.out.println("Введите -1, если будете ставить на цвет, 1 -- если на число");
+                player.field = in.nextInt();
 
-            if (player.field < 0) {
-                System.out.println("Введите 1, если будете ставить на красный, 2 -- если на чёрный");
-            } else {
-                System.out.println("Выберете число от 0 до 36");
+                if (player.field < 0) {
+                    System.out.println("Введите 1, если будете ставить на красный, 2 -- если на чёрный");
+                } else {
+                    System.out.println("Выберите число от 0 до 36");
+                }
+
+                player.field *= in.nextInt();
             }
 
-            player.field *= in.nextInt();
-            if (result(i, rotateRoulette())) {
-                System.out.print("Победа!\n\n\n");
-                updateScore(i, true);
-            } else {
-                updateScore(i, false);
-                System.out.print("Поражение :(\n\n\n");
+            int roulette_result = rotateRoulette();
+            for (int i = 0; i < players_num; i++) {
+                if (players[i].score <= 0) {
+                    continue;
+                }
+                if (result(i, roulette_result)) {
+                    System.out.println(players[i].name + ", вы выиграли :)\n");
+                    updateScore(i, true);
+                } else {
+                    updateScore(i, false);
+                    System.out.println(players[i].name + ", вы проиграли :(\n");
+                }
+            }
+            System.out.println("Введите 1, если хотите продолжить игру, или любое другое число, если хотите закончить");
+            int num = in.nextInt();
+            if (num != 1) {
+                break;
             }
         }
     }
