@@ -2,8 +2,8 @@ package com.company.Tests;
 
 import com.company.Game;
 import com.company.Player;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class GameTest {
     @Test
@@ -20,16 +20,16 @@ public class GameTest {
             for (int j = 0; j <= 36; j++) {
                 Player player = new Player(0, i);
                 Game game = new Game(player);
-                Assert.assertEquals(i == j, game.result(j));
+                Assert.assertEquals(i == j, game.result(0, j));
             }
 
             Player player1 = new Player(0, -1);
             Game game1 = new Game(player1);
-            Assert.assertEquals(i % 2 == 1, game1.result(i));
+            Assert.assertEquals(i % 2 == 1, game1.result(0, i));
 
             Player player2 = new Player(0, -2);
             Game game2 = new Game(player2);
-            Assert.assertEquals(i % 2 == 0, game2.result(i));
+            Assert.assertEquals(i % 2 == 0, game2.result(0, i));
         }
     }
 
@@ -41,8 +41,8 @@ public class GameTest {
             int field = Game.rotateRoulette();
             Player player = new Player(score, bit, field);
             Game game = new Game(player);
-            game.updateScore(true);
-            Assert.assertEquals(score + bit * 36L, game.player.score);
+            game.updateScore(0,true);
+            Assert.assertEquals(score + bit * 36L, game.players[0].score);
         }
 
         for (int i = 0; i <= 100; i++) {
@@ -51,8 +51,8 @@ public class GameTest {
             int field = Game.rotateRoulette();
             Player player = new Player(score, bit, field);
             Game game = new Game(player);
-            game.updateScore(false);
-            Assert.assertEquals(score - bit, game.player.score);
+            game.updateScore(0, false);
+            Assert.assertEquals(score - bit, game.players[0].score);
         }
 
         for (int i = 0; i <= 100; i++) {
@@ -61,8 +61,8 @@ public class GameTest {
             int field = -((int) (Math.random() * 2) + 1);
             Player player = new Player(score, bit, field);
             Game game = new Game(player);
-            game.updateScore(true);
-            Assert.assertEquals(score + bit, game.player.score);
+            game.updateScore(0, true);
+            Assert.assertEquals(score + bit, game.players[0].score);
         }
 
         for (int i = 0; i <= 100; i++) {
@@ -71,8 +71,8 @@ public class GameTest {
             int field = -((int) (Math.random() * 2) + 1);
             Player player = new Player(score, bit, field);
             Game game = new Game(player);
-            game.updateScore(false);
-            Assert.assertEquals(score - bit, game.player.score);
+            game.updateScore(0,false);
+            Assert.assertEquals(score - bit, game.players[0].score);
         }
     }
 }

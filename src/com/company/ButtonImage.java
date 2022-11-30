@@ -1,31 +1,27 @@
 package com.company;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RadialGradientPaint;
-import java.awt.Rectangle;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.util.Scanner;
 
 public class ButtonImage {
     private static Game game;
     public static void main(String[] args) {
-        game = new Game();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите количество игроков (число от 1 до 6)");
+        int num = in.nextInt();
+        while (num < 1 || num > 6) {
+            System.out.println("Некорректное число игроков. В игре могут участвовать от 1 до 6 человек. Снова введите количество игроков");
+            num = in.nextInt();
+        }
+
+        game = new Game(num);
         new ButtonImage();
     }
 
