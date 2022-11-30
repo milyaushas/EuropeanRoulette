@@ -86,6 +86,7 @@ public class ButtonImage {
                 public void mouseClicked(MouseEvent e) {
                     if (getNewGameBounds().contains(e.getPoint())) {
                         System.out.println("New Game");
+                        new WindowGame();
                         try {
                             game.start();
                         } catch (IOException ex) {
@@ -188,41 +189,6 @@ public class ButtonImage {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class Settings {
@@ -402,6 +368,87 @@ class Settings {
             Point p = getImageOffset();
             bounds.translate(p.x, p.y);
             return bounds;
+        }
+    }
+
+}
+
+
+class WindowGame {
+    public WindowGame() {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                }
+
+                JFrame frame = new JFrame("Game");
+                frame.setLayout(new BorderLayout());
+                frame.add(new MenuPane());
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+            }
+        });
+    }
+
+    public static class MenuPane extends JPanel {
+        private BufferedImage img;
+        private Rectangle selectedBounds;
+
+        public MenuPane() {
+            try {
+                img = ImageIO.read(getClass().getResource("./background.jpg"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            MouseAdapter mouseHandler = new MouseAdapter() {
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    selectedBounds = null;
+                    repaint();
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                }
+            };
+            addMouseListener(mouseHandler);
+            addMouseMotionListener(mouseHandler);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return img == null ? super.getPreferredSize() : new Dimension(img.getWidth(), img.getHeight());
+        }
+
+        protected Point getImageOffset() {
+
+            Point p = new Point();
+            if (img != null) {
+                p.x = (getWidth() - img.getWidth()) / 2;
+                p.y = (getHeight() - img.getHeight()) / 2;
+            }
+
+            return p;
+
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            if (img != null) {
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                Point p = getImageOffset();
+
+                g2d.drawImage(img, p.x, p.y, this);
+                g2d.dispose();
+            }
         }
     }
 
